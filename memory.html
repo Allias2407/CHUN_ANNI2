@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Horizontal Flip-Card Carousel</title>
+    <style>
+      :root {
+        --primary: #2c749b;
+        --accent-1: #e4543c;
+        --accent-2: #f3b543;
+        --bg: #ffeece;
+        --text-dark: #1a1a1a;
+        --white: #ffffff;
+      }
+
+      /* ---------- Page ---------- */
+      .container {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        display: flex;
+        align-items: center;
+        font-family: "Segoe UI", sans-serif;
+        overflow: hidden; /* hide page scroll */
+        color: var(--text-dark);
+      }
+
+      /* ---------- Carousel container ---------- */
+      .carousel {
+        position: relative;
+        width: 100%;
+        max-width: 100vw;
+        padding: 2rem 0;
+        overflow: hidden; /* hide overflow */
+      }
+
+      .carousel-inner {
+        display: flex;
+        gap: 1.5rem;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding: 0 2rem;
+        scrollbar-width: none; /* Firefox */
+      }
+      .carousel-inner::-webkit-scrollbar {
+        display: none;
+      } /* Chrome/Safari */
+
+      /* ---------- Card wrapper (fixed width) ---------- */
+      .card-wrapper {
+        flex: 0 0 260px; /* fixed width, no shrink/grow */
+        position: relative;
+        cursor: pointer;
+      }
+
+      .card {
+        position: relative;
+        width: 100%;
+        height: 320px; /* fixed height */
+        transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        transform-style: preserve-3d;
+      }
+      .card.flip {
+        transform: rotateY(180deg);
+      }
+
+      .front,
+      .back {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+      .front img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .back {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--accent-1),
+          var(--accent-2)
+        );
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.2rem;
+        text-align: center;
+        transform: rotateY(180deg);
+      }
+      .back h3 {
+        margin: 0 0 0.4rem;
+        font-size: 1.3rem;
+      }
+      .back p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+
+      /* ---------- Arrows (show only when needed) ---------- */
+      .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(44, 116, 155, 0.9); /* primary */
+        color: #fff;
+        border: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        font-size: 1.4rem;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s, background-color 0.2s, transform 0.1s;
+        z-index: 10;
+      }
+      .arrow.left {
+        left: 10px;
+      }
+      .arrow.right {
+        right: 10px;
+      }
+
+      .arrow:hover {
+        background: var(--accent-1);
+        transform: translateY(-50%) scale(1.05);
+      }
+
+      .carousel:hover .arrow {
+        opacity: 1;
+      } /* show on hover */
+
+      /* Show arrows only when there is overflow */
+      .carousel.show-left .arrow.left,
+      .carousel.show-right .arrow.right {
+        opacity: 1;
+      }
+
+      /* ---------- Hover lift ---------- */
+      .card-wrapper:hover .card:not(.flip) {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      /* NAVBAR */
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 5vw;
+        background: linear-gradient(90deg, var(--primary), #245b77);
+        color: var(--white);
+      }
+
+      .nav-logo {
+        font-weight: 700;
+        font-size: 1.2rem;
+        letter-spacing: 0.04em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--white);
+        opacity: 0.9;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -0.25rem;
+        width: 0;
+        height: 2px;
+        background: var(--accent-2);
+        transition: width 0.2s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="nav">
+      <div class="nav-logo">Birthday.site</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="memory.html">Memories</a>
+        <a href="wishes.html">Wishes</a>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="carousel" id="carousel">
+        <button class="arrow left" id="prev">←</button>
+        <button class="arrow right" id="next">→</button>
+
+        <div class="carousel-inner" id="inner">
+          <!-- ==== CARD 1 ==== -->
+          <label class="card-wrapper">
+            <input type="checkbox" hidden />
+            <div class="card">
+              <figure class="front">
+                <img src="https://picsum.photos/seed/c1/400/480" alt="" />
+              </figure>
+              <div class="back">
+                <div>
+                  <h3>Sunset Horizon</h3>
+                  <p>A breathtaking view captured at golden hour.</p>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <!-- ==== CARD 2 ==== -->
+          <label class="card-wrapper">
+            <input type="checkbox" hidden />
+            <div class="card">
+              <figure class="front">
+                <img src="https://picsum.photos/seed/c2/400/480" alt="" />
+              </figure>
+              <div class="back">
+                <div>
+                  <h3>Mountain Peak</h3>
+                  <p>Climb the heights and feel the crisp alpine air.</p>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <!-- ==== CARD 3 ==== -->
+          <label class="card-wrapper">
+            <input type="checkbox" hidden />
+            <div class="card">
+              <figure class="front">
+                <img src="https://picsum.photos/seed/c3/400/480" alt="" />
+              </figure>
+              <div class="back">
+                <div>
+                  <h3>City Lights</h3>
+                  <p>Nighttime skyline that never sleeps.</p>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <!-- ==== CARD 4 ==== -->
+          <label class="card-wrapper">
+            <input type="checkbox" hidden />
+            <div class="card">
+              <figure class="front">
+                <img src="https://picsum.photos/seed/c4/400/480" alt="" />
+              </figure>
+              <div class="back">
+                <div>
+                  <h3>Ocean Waves</h3>
+                  <p>Endless blue meeting the shore.</p>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <!-- ==== CARD 5 ==== -->
+          <label class="card-wrapper">
+            <input type="checkbox" hidden />
+            <div class="card">
+              <figure class="front">
+                <img src="https://picsum.photos/seed/c5/400/480" alt="" />
+              </figure>
+              <div class="back">
+                <div>
+                  <h3>Forest Path</h3>
+                  <p>Walk among ancient trees.</p>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <!-- ==== CARD 6 ==== -->
+          <label class="card-wrapper">
+            <input type="checkbox" hidden />
+            <div class="card">
+              <figure class="front">
+                <img src="https://picsum.photos/seed/c6/400/480" alt="" />
+              </figure>
+              <div class="back">
+                <div>
+                  <h3>Desert Dunes</h3>
+                  <p>Golden sands under a vast sky.</p>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <!-- add as many cards as you want -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const carousel = document.getElementById("carousel");
+      const inner = document.getElementById("inner");
+      const prevBtn = document.getElementById("prev");
+      const nextBtn = document.getElementById("next");
+      const cardWidth = 260 + 24; // width + gap (1.5rem = 24px)
+
+      // ---- scroll by one card ----
+      prevBtn.addEventListener("click", () => {
+        inner.scrollBy({ left: -cardWidth, behavior: "smooth" });
+      });
+      nextBtn.addEventListener("click", () => {
+        inner.scrollBy({ left: cardWidth, behavior: "smooth" });
+      });
+
+      // ---- show/hide arrows based on scroll position ----
+      function updateArrows() {
+        const atLeft = inner.scrollLeft <= 0;
+        const atRight =
+          inner.scrollWidth - inner.clientWidth - inner.scrollLeft <= 1;
+
+        carousel.classList.toggle("show-left", !atLeft);
+        carousel.classList.toggle("show-right", !atRight);
+      }
+
+      inner.addEventListener("scroll", updateArrows);
+      window.addEventListener("resize", updateArrows);
+      updateArrows(); // initial check
+
+      // ---- flip with checkbox (same as before) ----
+      document.querySelectorAll(".card-wrapper input").forEach((cb) => {
+        cb.addEventListener("change", (e) => {
+          const card = e.target.closest(".card-wrapper").querySelector(".card");
+          card.classList.toggle("flip", e.target.checked);
+        });
+      });
+    </script>
+  </body>
+</html>

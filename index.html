@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Những cảm xúc của mình</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      :root {
+        --primary: #2c749b;
+        --accent-1: #e4543c;
+        --accent-2: #f3b543;
+        --bg: #ffeece;
+        --text-dark: #1a1a1a;
+        --white: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: var(--bg);
+        color: var(--text-dark);
+        line-height: 1.7;
+      }
+
+      .page {
+        min-height: 100vh;
+        padding: 2.5rem 6vw 3rem;
+        max-width: 960px;
+        margin: 0 auto;
+      }
+
+      /* HERO TEXT */
+      .hero-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.35rem 0.9rem;
+        border-radius: 999px;
+        background: rgba(243, 181, 67, 0.18);
+        border: 1px dashed var(--accent-2);
+        font-size: 0.8rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-size: clamp(1.8rem, 3vw, 2.3rem);
+        color: var(--primary);
+        margin-bottom: 0.4rem;
+      }
+
+      h1 span {
+        color: var(--accent-1);
+      }
+
+      .hero-sub {
+        max-width: 520px;
+        font-size: 0.9rem;
+        color: #444;
+        margin-bottom: 2rem;
+      }
+
+      /* LAYOUT GRID */
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+        gap: 1.8rem;
+      }
+
+      @media (max-width: 768px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* TODAY FEELINGS CARD */
+      .card {
+        background: var(--white);
+        border-radius: 1.2rem;
+        padding: 1.4rem 1.5rem;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(44, 116, 155, 0.08);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.9rem;
+        font-size: 0.8rem;
+        color: #666;
+      }
+
+      .pill {
+        padding: 0.2rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(44, 116, 155, 0.1);
+        color: var(--primary);
+        font-weight: 500;
+        font-size: 0.75rem;
+      }
+
+      .card-title {
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+        color: var(--primary);
+        font-size: 1rem;
+      }
+
+      .card textarea {
+        width: 100%;
+        border: none;
+        resize: vertical;
+        min-height: 140px;
+        font-family: inherit;
+        font-size: 0.9rem;
+        line-height: 1.7;
+        padding: 0.1rem;
+        outline: none;
+        background: transparent;
+        color: var(--text-dark);
+      }
+
+      .hint {
+        font-size: 0.78rem;
+        color: #888;
+        margin-top: 0.6rem;
+      }
+
+      /* APPRECIATION LIST */
+      .section-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #555;
+        margin: 2rem 0 0.8rem;
+      }
+
+      .appreciation-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+
+      .app-item {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        padding: 0.6rem 0.7rem;
+        border-radius: 0.9rem;
+        background: rgba(243, 181, 67, 0.18);
+        border: 1px solid rgba(243, 181, 67, 0.5);
+        font-size: 0.9rem;
+      }
+
+      .app-icon {
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #7a4a00;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+
+      /* TIMELINE */
+      .timeline {
+        margin-top: 1rem;
+        border-left: 2px dashed rgba(44, 116, 155, 0.24);
+        padding-left: 1rem;
+      }
+
+      .timeline-item {
+        margin-bottom: 1rem;
+        position: relative;
+        padding-left: 0.4rem;
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -1.22rem;
+        top: 0.35rem;
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--accent-1);
+        box-shadow: 0 0 0 4px rgba(228, 84, 60, 0.25);
+      }
+
+      .timeline-label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 0.1rem;
+      }
+
+      .timeline-text {
+        font-size: 0.88rem;
+        color: #444;
+      }
+
+      /* LETTER / CLOSING */
+      .letter {
+        margin-top: 2.2rem;
+        padding: 1.2rem 1.4rem;
+        border-radius: 1.1rem;
+        background: linear-gradient(
+          135deg,
+          rgba(44, 116, 155, 0.15),
+          rgba(228, 84, 60, 0.1)
+        );
+        border: 1px solid rgba(44, 116, 155, 0.3);
+        text-align: left;
+      }
+
+      .letter-title {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #444;
+        margin-bottom: 0.4rem;
+      }
+
+      .letter-body {
+        font-size: 0.92rem;
+        color: #2b2b2b;
+      }
+
+      .letter-body strong {
+        color: var(--accent-1);
+      }
+
+      /* NAVBAR */
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 5vw;
+        background: linear-gradient(90deg, var(--primary), #245b77);
+        color: var(--white);
+      }
+
+      .nav-logo {
+        font-weight: 700;
+        font-size: 1.2rem;
+        letter-spacing: 0.04em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--white);
+        opacity: 0.9;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -0.25rem;
+        width: 0;
+        height: 2px;
+        background: var(--accent-2);
+        transition: width 0.2s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="nav">
+      <div class="nav-logo">Birthday.site</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="memory.html">Memories</a>
+        <a href="wishes.html">Wishes</a>
+      </div>
+    </nav>
+    <main class="page">
+      <!-- HERO -->
+      <h1>Những điều Bi muốn nói với <br /><span>TRẦN KHÁNH LINH</span></h1>
+      <p class="hero-sub">
+        Trang này là nơi anh ghi lại những cảm xúc thật của mình, để sau này
+        quay lại đọc, thấy được anh đã thương và trân trọng như
+        thế nào.
+      </p>
+
+      <!-- GRID: left feelings, right timeline -->
+      <section class="grid">
+        <!-- LEFT: today feelings -->
+        <article class="card">
+          <div class="card-header">
+            <span class="pill">Hôm nay mình cảm thấy…</span>
+            <span>📅 24/12/2025 · Anni</span>
+          </div>
+          <div class="card-title">Viết cho chính mình đọc sau này</div>
+          <textarea
+            placeholder=""
+          ></textarea>
+          <p class="hint">
+            Gợi ý: cứ viết như đang nhắn tin cho chính mình, không cần văn hoa
+            cho lắm đâu.
+          </p>
+        </article>
+
+        <!-- RIGHT: memorable moments timeline -->
+        <aside>
+          <h2 class="section-title">Những khoảnh khắc anh nhớ nhất</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-label">4/11/2025 · Lần đầu viết nhật kí</div>
+              <p class="timeline-text">
+                Ngày hôm đấy giành 3 tiếng stalk hết đống post của em :>, 1 đống
+                cảm xúc ập vào khiến anh suýt khóc. Đây là 1 cái dòng note khi
+                đó anh viết: <br>"muc dich a note cai nay là để tương lai nếu a có
+                quên đi con ng chun thì nó sẽ nhắc a bt đã từng có 1 thg bi yêu
+                chun đến nhường nào "
+              </p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-label">
+                2024 · Một ngày bình thường nhưng rất đẹp
+              </div>
+              <p class="timeline-text">
+                Không có gì quá đặc biệt, chỉ là nói chuyện linh tinh, ăn uống,
+                đi về. Nhưng mình vẫn nhớ, có lẽ vì hôm đó mình cảm nhận được
+                bạn quan tâm mình nhiều hơn mình nghĩ.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-label">10/12/2025 · Trận cãi nhau kinh nhất</div>
+              <p class="timeline-text">
+                Mình dành thời gian làm trang này vì mình muốn bạn biết bạn quan
+                trọng với mình như thế nào – dù có thể mình không nói được hết
+                bằng lời.
+              </p>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- APPRECIATION -->
+      <section>
+        <h2 class="section-title">Những điều anh trân trọng em</h2>
+        <div class="appreciation-list">
+          <div class="app-item">
+            <div class="app-icon">✨</div>
+            <p>
+              Em luôn để ý đến cảm xúc bên trong anh ngay cả những lúc em cảm
+              thấy tồi tệ nhất.
+            </p>
+          </div>
+          <div class="app-item">
+            <div class="app-icon">💛</div>
+            <p>
+              Em cố gắng rất nhiều cho công việc và mọi người xung quanh, dù
+              không nói ra hay khoe với ai.
+            </p>
+          </div>
+          <div class="app-item">
+            <div class="app-icon">🌙</div>
+            <p>
+              Dù anh có mệt hay tiêu cực thế nào, mỗi lần nghe em nhỏ nhẹ giải
+              thích hay an ủi anh, đều cảm thấy dễ chịu hơn rất nhiều.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- LETTER / CLOSING -->
+      <section class="letter">
+        <div class="letter-title">Lời anh muốn nhắn gửi tới em Chun</div>
+        <div class="letter-body">
+          Hi em Chun, hôm nay là anni 2 tháng của a vs e hú hú (ngay Noen lun
+          chứ). Thư vs quà noen a tặng e rùi nho, quà anni và celebrate project
+          em làm pl là cái máy ảnh cũng có rùi nhé hị hị.
+          <br /><br />
+          Dạo này có quá nhiều chuyện ập lên đầu cô gái bé nhỏ của a nhỉ. Từ
+          chuyện gia đình, tới công việc, rồi tình cảm và cuối cùng là cảm xúc
+          của bản thân e. Anh thật sự ngưỡng mộ em lắm vì đã cố gắng nhìu đến
+          như thế. Cho nên là a cũng sẽ học cách hiểu cảm xúc của em hơn, thay
+          vì nói ra quan điểm của mk dựa trên logic (đúng là ko hợp context thật
+          huhu).
+          <br /><br />
+          Anh nhận ra 1 phần lí do anh chưa thể an ủi e là vì a chưa thật sự đặt
+          mk vào cái cảm xúc và hoàn cảnh của em. Có thể những chuyện như đôi
+          lúc cảm thấy mình không đủ quan trọng với mọi người, mất lửa theo đuổi
+          một việc gì đó,... đối với tính cách chill chill của anh thì anh không
+          để ý nhiều có buồn thì cũng sẽ cho qua thoi. VÀ ĐIỀU ĐÓ K HỢP LÍ TÍ
+          NÀO KHI ANH DÙNG TÍNH CÁCH ĐÓ ĐỂ ÁP LÊN CẢM XÚC CỦA EM - 1 NG NHẠY CẢM
+          HƠN A NHÌU. Anh cũng hối hận vì đã nói những lời ko hay với em trong
+          lúc em không ổn nhất.
+          <br /><br />
+          Chun ơi vậy em đã suy nghĩ kĩ về chuyện apply flip chưa? Không có cơ
+          hội này thì em vẫn sẽ tìm được cho e cơ hội khác thoi a bt điều đó.
+          Nên là hãy chắc chắn về quyết định của mk nhé (tính e siu commitment
+          lun nên a thấy e lm khổ vl a k chịu nổi huhu, mà lên head thì phải làm
+          trg 1 năm nữa). Nhưng suy cho cùng không có khó khăn thì k thể phát
+          triển bản thân đúng k nè. Dù quyết định của e ntn thì a vẫn sẽ support
+          nó thui vì chính e mới là ng hiểu e nhất mà đk nè. Cố lên nhé cô gái
+          hay khóc nhè của anh.
+          <br /><br />
+          Hị còn chuyện anh bảo giành tg với bạn bè thì em k cần phải lo vì a
+          chọn e a cũng chấp nhận sẽ không giành nhìu tg cho mn nữa mà hihi. Đó
+          là quyết định của anh không cần phải cảm thấy có lỗi hay tủi thân vì
+          điều đó hếttttt. Nhưng ý của anh chỉ đơn giản là em cần gì cứ nói
+          thẳng với anh khi anh đang đi với mn hay làm công việc của anh, vì
+          những lúc đó anh đang có khi a khó có thể tập trung hiểu được ý và làm
+          đúng ý em được á (đừng giận anh những lúc như thế huhu). Nha nha nếu e
+          cần a thì cứ nói thẳng a k cảm thấy phiền đâu nè (nếu a không thể làm
+          liền ngay lúc đó thì a sẽ cùng e tìm cách khác nhe đừng cảm thấy mk bị
+          bỏ rơi hay gì đó nha vì a lúc nào cũng để ý e á). Anh quan sát e rất
+          nhìu đấy, có những lần a bất giác nhìn e k vì lí do z nx:>> hahahaa có
+          bồ vừa thông minh giỏi ăn nói vừa xinh đẹp sếch sếch thích thật!
+          <br /><br />
+          Mới 2 tháng thui mà nhìu chuyện xảy ra thật hê hê. Chúc em 1 ngày
+          Giáng sinh hạnh phúc bên gia đình ạ. Cũng mong anh và em sẽ tiếp tục
+          đồng hành cùng nhau trong hành trình dài sắp tới (mún ăn anni 1 năm
+          lắm đấy cô nương).
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
